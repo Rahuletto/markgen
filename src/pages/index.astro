@@ -1,0 +1,107 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+import "@remirror/styles/all.css";
+import MDEditor from "../components/Editor";
+import "../styles/Editor.css";
+---
+
+<Layout title="Welcome to Astro.">
+  <main>
+    <span class="glowable one"></span>
+    <span class="glowable two"></span>
+    <MDEditor client:only />
+  </main>
+</Layout>
+
+<style>
+  main {
+    padding: 9px 18px;
+  }
+
+  .glowable {
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.51, 0.69, 0.46, 0.96);
+    animation-delay: 1.3s;
+    animation-duration: 0.8s;
+    animation-name: glow-fade-1;
+    animation-fill-mode: forwards;
+
+    filter: blur(6px);
+    position: absolute;
+    top: 0%;
+    left: -40%;
+    width: 120vh;
+    height: 95vh;
+    transition: 0.2s cubic-bezier(0.51, 0.69, 0.46, 0.96);
+    background: radial-gradient(circle, #7963d2c9 0%, rgba(0, 0, 0, 0) 70%);
+  }
+
+  .two {
+    animation-delay: 1.5s !important;
+    animation-duration: 0.8s !important;
+    animation-name: glow-fade-2 !important;
+
+    position: absolute;
+    left: inherit;
+    top: -120px;
+    right: 0px;
+    width: 60vh;
+    height: 60vh;
+  }
+
+  @media only screen and (max-width: 750px) {
+    .one {
+      display: none;
+    }
+  }
+
+  @keyframes glow-fade-1 {
+    0% {
+      opacity: 0;
+      top: -100%;
+      left: -100%;
+    }
+    100% {
+      opacity: 0.2;
+      top: 0%;
+      left: -40%;
+    }
+  }
+
+  @keyframes glow-fade-2 {
+    0% {
+      opacity: 0;
+      left: inherit;
+      top: -100%;
+      right: 0px;
+    }
+    100% {
+      opacity: 0.1;
+      left: inherit;
+      top: -120px;
+      right: 0px;
+    }
+  }
+
+  @media only screen and (max-width:400px) {
+    main {
+      padding: 6px !important;
+    }
+  }
+
+</style>
+
+<style type="text/css" media="print">
+  @media print {
+    main {
+      padding: 0px !important;
+      background-color: white !important;
+    }
+    .glowable,
+    .two,
+    .no-print {
+      display: none;
+    }
+  }
+</style>
