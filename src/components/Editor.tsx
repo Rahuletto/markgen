@@ -77,7 +77,6 @@ import {
   useHelpers,
   useKeymap,
   EmojiPopupComponent,
-  FloatingToolbar,
   CreateTableButton,
 } from "@remirror/react";
 import { Suspense, useCallback, useEffect, useState } from "react";
