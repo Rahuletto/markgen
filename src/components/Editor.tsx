@@ -34,6 +34,17 @@ import typescript from "refractor/lang/typescript.js";
 import basic from "refractor/lang/basic.js";
 import vbnet from "refractor/lang/vbnet.js";
 
+import data from "svgmoji/emoji.json";
+import { cx } from "remirror";
+
+import { CodeBlockLanguageSelect } from "@remirror/extension-react-language-select";
+import { ExtensionCodeBlockTheme } from "@remirror/theme";
+
+import {
+  TableComponents,
+  TableExtension,
+} from "@remirror/extension-react-tables";
+
 import { ExtensionPriority } from "remirror";
 import {
   BlockquoteExtension,
@@ -48,11 +59,15 @@ import {
   ListItemExtension,
   MarkdownExtension,
   OrderedListExtension,
+  UnderlineExtension,
   StrikeExtension,
-  TableExtension,
   TrailingNodeExtension,
+  EmojiExtension,
+  HorizontalRuleExtension,
+  ImageExtension,
+  TOP_50_TLDS,
 } from "remirror/extensions";
-
+import tlds from "tlds";
 import {
   useRemirror,
   Remirror,
@@ -61,6 +76,9 @@ import {
   CommandButton,
   useHelpers,
   useKeymap,
+  EmojiPopupComponent,
+  FloatingToolbar,
+  CreateTableButton,
 } from "@remirror/react";
 import { Suspense, useCallback, useEffect, useState } from "react";
 
@@ -69,8 +87,8 @@ export const MDEditor = ({} = {}) => {
 
   const markdown = useRemirror({
     extensions,
-    stringHandler: "markdown",
     content: val,
+    stringHandler: "markdown",
   });
 
   useEffect(() => {
@@ -126,14 +144,18 @@ export const MDEditor = ({} = {}) => {
             hooks={hooks}
             manager={markdown.manager}
             placeholder="Start typing..."
+            autoFocus
             autoRender="end"
             initialContent={markdown.state}
             onChange={({ helpers, state }) => {
               setVal(helpers.getMarkdown(state));
             }}
           >
+            <TableComponents />
             <div className="toolbox no-print">
               <MarkdownToolbar />
+
+              <CreateTableButton />
               <CommandButton
                 commandName={"export"}
                 title="Export"
@@ -142,6 +164,14 @@ export const MDEditor = ({} = {}) => {
                 enabled={true}
               />
             </div>
+            <EmojiPopupComponent />
+            <CodeBlockLanguageSelect
+              offset={{ x: 5, y: 5 }}
+              className={cx(
+                ExtensionCodeBlockTheme.LANGUAGE_SELECT_POSITIONER,
+                ExtensionCodeBlockTheme.LANGUAGE_SELECT_WIDTH
+              )}
+            />
           </Remirror>
         </ThemeProvider>
       </div>
@@ -150,18 +180,39 @@ export const MDEditor = ({} = {}) => {
 };
 
 const extensions = () => [
-  new LinkExtension({ autoLink: true }),
+  new LinkExtension({
+    autoLink: true,
+    autoLinkAllowedTLDs: [
+      ...TOP_50_TLDS,
+      ...tlds,
+      "dev",
+      "id",
+      "london",
+      "tech",
+    ],
+    defaultProtocol: "https",
+  }),
   new BoldExtension(),
   new StrikeExtension(),
+  new ImageExtension(),
   new ItalicExtension(),
   new HeadingExtension(),
   new BlockquoteExtension(),
   new BulletListExtension({ enableSpine: true }),
   new OrderedListExtension(),
+  new TableExtension(),
   new ListItemExtension({
     priority: ExtensionPriority.High,
     enableCollapsible: true,
   }),
+  new UnderlineExtension(),
+  new EmojiExtension({
+    data,
+    moji: "noto",
+    identifier: "emoji",
+    plainText: true,
+  }),
+  new HorizontalRuleExtension(),
   new CodeExtension(),
   new CodeBlockExtension({
     defaultLanguage: "markdown",

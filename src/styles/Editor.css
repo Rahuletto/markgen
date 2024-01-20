@@ -15,7 +15,6 @@
 .remirror-editor-wrapper {
   padding-top: 0px !important;
   overflow: hidden !important;
-
 }
 
 .remirror-editor h1,
@@ -38,6 +37,7 @@
 }
 
 .remirror-editor {
+  padding-bottom: 40px !important;
   box-shadow: none !important;
   background: white;
   border-radius: 8px !important;
@@ -54,7 +54,8 @@
 .remirror-theme .ProseMirror {
   border: 2px solid transparent;
 }
-.remirror-theme .ProseMirror:active, .remirror-theme .ProseMirror:focus {
+.remirror-theme .ProseMirror:active,
+.remirror-theme .ProseMirror:focus {
   border: 2px solid #2d1f67a6;
 }
 
@@ -76,11 +77,11 @@
 
 pre {
   border: 1px solid rgba(85, 85, 85, 0.3);
-  border-radius: 8px;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  -ms-border-radius: 8px;
-  -o-border-radius: 8px;
+  border-radius: 12px;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
 }
 
 p code {
@@ -121,7 +122,7 @@ blockquote {
 }
 
 .MuiTooltip-tooltip {
- display: none !important;
+  display: none !important;
 }
 
 .MuiPaper-root {
@@ -132,10 +133,10 @@ blockquote {
   -o-border-radius: 12px;
 }
 
-.MuiList-root {
+.MuiList-root, .remirror-emoji-popup-wrapper {
   padding: 6px !important;
 }
-.MuiMenuItem-root {
+.MuiMenuItem-root, .remirror-emoji-popup-item {
   border-radius: 6px !important;
   -webkit-border-radius: 6px !important;
   -moz-border-radius: 6px !important;
@@ -144,7 +145,7 @@ blockquote {
 }
 .MuiList-root,
 .MuiMenu-list,
-.MuiPaper-rounded {
+.MuiPaper-rounded, .remirror-emoji-popup-wrapper {
   border-radius: 12px !important;
   -webkit-border-radius: 12px !important;
   -moz-border-radius: 12px !important;
@@ -154,16 +155,55 @@ blockquote {
 .MuiMenuItem-root:hover {
   background-color: rgb(0 0 0 / 12%);
 }
+.remirror-floating-popover {
+  z-index: 3;
+}
+
+.remirror-language-select-positioner {
+  position: relative;
+  float: right;
+  margin-top: -16px;
+  margin-right: 30px;
+  background: #dee2f0;
+  border: 2px solid #5e668723 !important;
+  padding: 6px 12px;
+  width: auto !important;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  font-family: "JetBrains Mono Variable" !important;
+  cursor: pointer;
+  outline: none !important;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: '';
+}
+select::-ms-expand {
+  display: none;
+}
+
+.remirror-language-select-positioner:hover {
+  transform: scale(0.98);
+}
 
 @media print {
-  
+  pre {
+    white-space: pre-wrap !important; /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+    white-space: -pre-wrap !important; /* Opera 4-6 */
+    white-space: -o-pre-wrap !important; /* Opera 7 */
+    word-wrap: break-word !important; /* Internet Explorer 5.5+ */
+  }
   .tip {
     display: none;
   }
   .editor {
     border: 0px solid transparent;
     height: auto;
-    background:white !important;
+    background: white !important;
     border-radius: 0px;
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
@@ -188,14 +228,13 @@ blockquote {
   }
 }
 
-
 @media only screen and (max-width: 690px) {
   .MuiStack-root {
     display: none !important;
   }
 }
 
-@media only screen and (max-width:300px) {
+@media only screen and (max-width: 300px) {
   .editor {
     border-radius: 14px !important;
     padding: 4px;
@@ -203,7 +242,7 @@ blockquote {
     -moz-border-radius: 14px !important;
     -ms-border-radius: 14px !important;
     -o-border-radius: 14px !important;
-}
+  }
 
   .tip {
     display: none;
