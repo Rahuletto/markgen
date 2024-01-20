@@ -1,0 +1,109 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+
+import "@fontsource-variable/dm-sans";
+import "@fontsource-variable/jetbrains-mono";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Astro description" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+<style is:global>
+  @media print {
+    html,
+    body {
+      padding: 0px;
+      margin: 0px;
+      background: white !important;
+    }
+  }
+
+  * {
+  text-rendering: geometricPrecision !important;
+
+  transition: 0.3s cubic-bezier(0.35, 0.76, 0.4, 0.92);
+  -webkit-transition: 0.3s cubic-bezier(0.35, 0.76, 0.4, 0.92);
+  -moz-transition: 0.3s cubic-bezier(0.35, 0.76, 0.4, 0.92);
+  -ms-transition: 0.3s cubic-bezier(0.35, 0.76, 0.4, 0.92);
+  -o-transition: 0.3s cubic-bezier(0.35, 0.76, 0.4, 0.92);
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+  background-color: #1c161d;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #7963d294;
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-transition: 0.2s cubic-bezier(0.21, 0.67, 0.31, 0.92);
+    -o-transition: 0.2s cubic-bezier(0.21, 0.67, 0.31, 0.92);
+    transition: 0.2s cubic-bezier(0.21, 0.67, 0.31, 0.92);
+    -moz-transition: 0.2s cubic-bezier(0.21, 0.67, 0.31, 0.92);
+    -ms-transition: 0.2s cubic-bezier(0.21, 0.67, 0.31, 0.92);
+
+    font-family: "DM Sans Variable", system-ui, sans-serif;
+    /* background: #f7e9fc; */
+    background-size: 40px 40px;
+    background-image: linear-gradient(
+        to right,
+        rgba(49, 49, 49, 0.274) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, rgba(49, 49, 49, 0.274) 1px, transparent 1px);
+    font-family: "DM Sans Variable", system-ui, sans-serif;
+    background-color: #0e0f0f;
+    --rmr-radius-border: 0.45rem !important;
+  }
+
+  body {
+    margin: 0px;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  a,
+  button,
+  p,
+  li,
+  ul {
+    font-family: "DM Sans Variable", system-ui, sans-serif !important;
+  }
+  code {
+    font-family:
+      "JetBrains Mono Variable",
+      Menlo,
+      Monaco,
+      Lucida Console,
+      Liberation Mono,
+      DejaVu Sans Mono,
+      Bitstream Vera Sans Mono,
+      Courier New,
+      monospace !important;
+  }
+</style>
