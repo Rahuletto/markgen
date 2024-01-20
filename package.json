@@ -1,27 +1,29 @@
 {
   "name": "markgen",
-  "version": "0.1.0",
-  "private": true,
+  "type": "module",
+  "version": "0.0.1",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
   },
   "dependencies": {
-    "react": "^18",
-    "react-dom": "^18",
-    "next": "14.1.0"
-  },
-  "devDependencies": {
-    "typescript": "^5",
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "autoprefixer": "^10.0.1",
-    "postcss": "^8",
-    "tailwindcss": "^3.3.0",
-    "eslint": "^8",
-    "eslint-config-next": "14.1.0"
+    "@astrojs/check": "^0.4.1",
+    "@astrojs/react": "^3.0.9",
+    "@fontsource-variable/dm-sans": "^5.0.3",
+    "@fontsource-variable/jetbrains-mono": "^5.0.19",
+    "@remirror/react": "^2.0.35",
+    "@remirror/react-editors": "^1.0.40",
+    "@remirror/styles": "^2.0.7",
+    "@types/react": "^18.2.48",
+    "@types/react-dom": "^18.2.18",
+    "astro": "^4.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "refractor": "^4.8.1",
+    "remirror": "^2.0.38",
+    "typescript": "^5.3.3"
   }
 }
