@@ -91,7 +91,7 @@ export const MDEditor = ({} = {}) => {
   });
 
   useEffect(() => {
-    const stored = localStorage.getItem("content") || "# This is Markdown";
+    const stored = localStorage.getItem("content");
     if (stored) {
       setVal(stored);
       markdown.manager.view.updateState(
