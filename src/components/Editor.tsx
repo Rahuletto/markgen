@@ -207,6 +207,7 @@ const extensions = () => [
   }),
   new UnderlineExtension(),
   new EmojiExtension({
+    // @ts-expect-error
     data,
     moji: "noto",
     identifier: "emoji",
