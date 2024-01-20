@@ -65,13 +65,23 @@ import {
 import { Suspense, useCallback, useEffect, useState } from "react";
 
 export const MDEditor = ({} = {}) => {
+  const [val, setVal] = useState<any>("");
+
   const markdown = useRemirror({
     extensions,
     stringHandler: "markdown",
-    content: basicContent,
+    content: val,
   });
 
-  const [val, setVal] = useState<any>(markdown.state);
+  useEffect(() => {
+    const stored = localStorage.getItem("content") || "# This is Markdown";
+    if (stored) {
+      setVal(stored);
+      markdown.manager.view.updateState(
+        markdown.manager.createState({ content: JSON.parse(stored) })
+      );
+    }
+  }, []);
 
   const onExport = () => {
     let candidateTitle = "";
@@ -96,14 +106,13 @@ export const MDEditor = ({} = {}) => {
       const handleSaveShortcut = useCallback(
         ({ state }: { state: any }) => {
           console.log(`Save to backend`);
-          localStorage.setItem("code", JSON.stringify(getMarkdown(state)));
+          localStorage.setItem("content", JSON.stringify(getMarkdown(state)));
 
           return true; // Prevents any further key handlers from being run.
         },
         [getMarkdown]
       );
 
-      // "Mod" means platform agnostic modifier key - i.e. Ctrl on Windows, or Cmd on MacOS
       useKeymap("Mod-s", handleSaveShortcut);
     },
   ];
@@ -120,7 +129,7 @@ export const MDEditor = ({} = {}) => {
             autoRender="end"
             initialContent={markdown.state}
             onChange={({ helpers, state }) => {
-              const text = helpers.getText({ state });
+              setVal(helpers.getMarkdown(state));
             }}
           >
             <div className="toolbox no-print">
@@ -202,58 +211,10 @@ const extensions = () => [
   new HardBreakExtension(),
 ];
 
-const basicContent = `
-**Markdown** content is the _best_
-
-<br>
-
-# Heading 1
-
-<br>
-
-## Heading 2
-
-<br>
-
-### Heading 3
-
-<br>
-
-#### Heading 4
-
-<br>
-
-##### Heading 5
-
-<br>
-
-###### Heading 6
-
-<br>
-
-> Blockquote
-
-\`\`\`ts
-const a = 'asdf';
-\`\`\`
-
-playtime is just beginning
-
-## List support
-
-- an unordered
-  - list is a thing
-    - of beauty
-
-1. As is
-2. An ordered
-3. List
-`;
-
 export default MDEditor;
 
 const Fallback = () => (
   <div className="editor">
-    <h1 style={{color: "white"}}>Loading</h1>
+    <h1 style={{ color: "white" }}>Loading</h1>
   </div>
-)
+);
