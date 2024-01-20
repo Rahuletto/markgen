@@ -6,11 +6,13 @@ import MDEditor from "../components/Editor";
 import "../styles/Editor.css";
 ---
 
-<Layout title="Welcome to Astro.">
+<Layout title="Markgen">
   <main>
     <span class="glowable one"></span>
     <span class="glowable two"></span>
-    <MDEditor client:only />
+    <slot name="editor">
+      <MDEditor client:only />
+    </slot>
   </main>
 </Layout>
 
@@ -84,12 +86,11 @@ import "../styles/Editor.css";
     }
   }
 
-  @media only screen and (max-width:400px) {
+  @media only screen and (max-width: 400px) {
     main {
       padding: 6px !important;
     }
   }
-
 </style>
 
 <style type="text/css" media="print">

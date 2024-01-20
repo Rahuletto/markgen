@@ -39,7 +39,6 @@
 
 .remirror-editor {
   box-shadow: none !important;
-
   background: white;
   border-radius: 8px !important;
   height: -webkit-fill-available;
@@ -52,6 +51,9 @@
   -o-border-radius: 8px !important;
 }
 
+.remirror-theme .ProseMirror {
+  border: 2px solid transparent;
+}
 .remirror-theme .ProseMirror:active, .remirror-theme .ProseMirror:focus {
   border: 2px solid #2d1f67a6;
 }

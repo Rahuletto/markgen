@@ -58,10 +58,11 @@ import {
   Remirror,
   MarkdownToolbar,
   ThemeProvider,
-  CreateTableButton,
   CommandButton,
+  useHelpers,
+  useKeymap,
 } from "@remirror/react";
-import { useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 
 export const MDEditor = ({} = {}) => {
   const markdown = useRemirror({
@@ -70,7 +71,7 @@ export const MDEditor = ({} = {}) => {
     content: basicContent,
   });
 
-  const [val, setVal] = useState(markdown.state);
+  const [val, setVal] = useState<any>(markdown.state);
 
   const onExport = () => {
     let candidateTitle = "";
@@ -88,33 +89,54 @@ export const MDEditor = ({} = {}) => {
     window.print();
   };
 
+  const hooks = [
+    () => {
+      const { getMarkdown } = useHelpers();
+
+      const handleSaveShortcut = useCallback(
+        ({ state }: { state: any }) => {
+          console.log(`Save to backend`);
+          localStorage.setItem("code", JSON.stringify(getMarkdown(state)));
+
+          return true; // Prevents any further key handlers from being run.
+        },
+        [getMarkdown]
+      );
+
+      // "Mod" means platform agnostic modifier key - i.e. Ctrl on Windows, or Cmd on MacOS
+      useKeymap("Mod-s", handleSaveShortcut);
+    },
+  ];
+
   return (
-    <div className="editor">
-      <h3 className="tip no-print">Markdown Editor</h3>
-      <ThemeProvider>
-        <Remirror
-          manager={markdown.manager}
-          placeholder="Start typing..."
-          autoRender="end"
-          initialContent={markdown.state}
-          onChange={({ helpers, state }) => {
-            const text = helpers.getText({ state });
-            setVal(text);
-          }}
-        >
-          <div className="toolbox no-print">
-            <MarkdownToolbar />
-            <CommandButton
-              commandName={"export"}
-              title="Export"
-              onSelect={onExport}
-              icon={"upload2Fill"}
-              enabled={true}
-            />
-          </div>
-        </Remirror>
-      </ThemeProvider>
-    </div>
+    <Suspense fallback={<Fallback />}>
+      <div className="editor">
+        <h3 className="tip no-print">Markdown Editor</h3>
+        <ThemeProvider>
+          <Remirror
+            hooks={hooks}
+            manager={markdown.manager}
+            placeholder="Start typing..."
+            autoRender="end"
+            initialContent={markdown.state}
+            onChange={({ helpers, state }) => {
+              const text = helpers.getText({ state });
+            }}
+          >
+            <div className="toolbox no-print">
+              <MarkdownToolbar />
+              <CommandButton
+                commandName={"export"}
+                title="Export"
+                onSelect={onExport}
+                icon={"upload2Fill"}
+                enabled={true}
+              />
+            </div>
+          </Remirror>
+        </ThemeProvider>
+      </div>
+    </Suspense>
   );
 };
 
@@ -229,3 +251,9 @@ playtime is just beginning
 `;
 
 export default MDEditor;
+
+const Fallback = () => (
+  <div className="editor">
+    <h1 style={{color: "white"}}>Loading</h1>
+  </div>
+)
